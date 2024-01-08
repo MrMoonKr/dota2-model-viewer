@@ -16,7 +16,7 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
   },
-  devtool: env === 'development' ? 'inline-cheap-source-map' : false,
+  devtool: env === 'development' ? 'source-map' : false,
   optimization: {
     splitChunks: {
       chunks: 'all',

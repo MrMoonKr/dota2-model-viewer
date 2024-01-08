@@ -6,6 +6,6 @@ import webpack from 'webpack';
 import config from '../../../webpack.config.cjs';
 
 export default () => {
-  const compiler = webpack(config);
-  return middleware(compiler);
+    const compiler = webpack( config );
+    return middleware( compiler );
 };
