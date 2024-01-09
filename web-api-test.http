@@ -1,0 +1,17 @@
+
+
+###
+GET http://localhost:3000
+
+
+###
+GET http://localhost:3000/models.json
+
+
+###
+GET http://localhost:3000/?model=models/creeps/roshan/roshan.vmdl
+
+###
+GET http://localhost:3000/?model=models/courier/donkey_ti7/donkey_ti7.vmdl
+
+

@@ -2,6 +2,13 @@ import path from 'path';
 
 export { default as MurmurHash } from './MurmurHash.js';
 
+
+/**
+ * 
+ * @param {string} fqpath 리소스 이름 ex)
+ * @param {string} extension 바꾸고자 하는 확장자 ex) .vmdl
+ * @returns 
+ */
 export const changeExtension = ( fqpath, extension ) => {
     const current = path.extname( fqpath );
     if ( extension && current !== extension ) {

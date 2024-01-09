@@ -104,7 +104,41 @@ app.get( '/:material([a-zA-Z0-9/_-]+.vmat).png', ( req, res ) => {
     const kv = parseKeyValues( vrf.fetch( material.toLowerCase() ) );
 
     // TODO: Is it always called Layer0?
-    const data = kv['Layer0']['VRF Original Textures']['g_tColor'];
+    // const data = kv['Layer0']['VRF Original Textures']['g_tColor'];
+    // if ( !data ) {
+    //     data = kv['Layer0']['Compiled Textures']['g_tColor'];
+    //     if ( !data ) {
+    //         res.status( 404 ).send( {
+    //             error: 'Not Found'
+    //         } );
+    //         return;
+    //     }
+    // }
+    let data ;
+    if ( kv.hasOwnProperty( 'Layer0' ) ) {
+        const layer0 = kv.Layer0;
+        if ( layer0.hasOwnProperty( 'VRF Original Textures' ) ) {
+            data = layer0['VRF Original Textures'].g_tColor;
+        }
+        else if ( layer0.hasOwnProperty( 'Compiled Textures' ) ) {
+            data = layer0['Compiled Textures'].g_tColor;
+        }
+        else
+        {
+            res.status( 404 ).send( {
+                error: 'Not Found'
+            } );
+            return;
+        }
+    }
+    else
+    {
+        res.status( 404 ).send( {
+            error: 'Not Found'
+        } );
+        return;
+    }
+
     const texture = vrf.fetch( data );
     
     //const texture = vrf.fetch( kv.Layer0.g_tColor );
@@ -120,6 +154,7 @@ app.get( '*', ( _, res ) => {
         error: 'Not Found'
     } );
 } );
+
 
 export default app;
 export { portraits, vrf };

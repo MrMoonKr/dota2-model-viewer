@@ -142,47 +142,55 @@ window.addEventListener( 'resize', () => {
 
 }, false );
 
-reaction( () => state.model.animation, ( name ) => {
-    const clip = animations.find( ( a ) => a.name === name );
-    const action = mixer.clipAction( clip );
-    if ( action ) {
-        mixer.stopAllAction();
-        action.play();
+// 애니메이션 변경 추적
+reaction( () => state.model.animation, 
+    ( name ) => {
+        console.log( '[정보][reaction] Animation: ' + name );
+        const clip = animations.find( ( a ) => a.name === name );
+        const action = mixer.clipAction( clip );
+        if ( action ) {
+            mixer.stopAllAction();
+            action.play();
+        }
     }
-} );
+);
 
-reaction( () => state.model.animate, ( animate ) => {
-    if ( mixer ) {
-        mixer.setTime( 0 );
+reaction( () => state.model.animate, 
+    ( animate ) => {
+        if ( mixer ) {
+            mixer.setTime( 0 );
+        }
+        if ( animate ) {
+            clock.start();
+        } else {
+            clock.stop();
+        }
+    }, 
+    {
+        fireImmediately: true
     }
-    if ( animate ) {
-        clock.start();
-    } else {
-        clock.stop();
-    }
-}, {
-    fireImmediately: true
-} );
+);
 
-reaction( () => state.model.portrait, ( portrait ) => {
-    if ( portrait ) {
-        camera = cameras.portrait;
-        controls.enabled = false;
-        scene.background = backdrop;
-    } else {
-        camera = cameras.main;
-        controls.enabled = true;
-        scene.background = null;
-    }
-} );
+reaction( () => state.model.portrait, 
+    ( portrait ) => {
+        if ( portrait ) {
+            camera = cameras.portrait;
+            controls.enabled = false;
+            scene.background = backdrop;
+        } else {
+            camera = cameras.main;
+            controls.enabled = true;
+            scene.background = null;
+        }
+    } 
+);
 
-reaction( () => [
-    state.camera.position.normalized,
-    state.camera.rotation.normalized,
-], ( [ position, rotation ] ) => {
-    cameras.portrait.position.set( ...position );
-    cameras.portrait.rotation.set( ...rotation );
-} );
+reaction( () => [ state.camera.position.normalized, state.camera.rotation.normalized, ], 
+    ( [ position, rotation ] ) => {
+        cameras.portrait.position.set( ...position );
+        cameras.portrait.rotation.set( ...rotation );
+    } 
+);
 
 reaction( () => [
     state.camera.fov, state.camera.far, state.camera.near,
@@ -301,6 +309,7 @@ reaction( () => [
             animations.find( ( a ) => a.name.includes( 'idle' ) ) ||
             animations.find( ( a ) => a.name.includes( 'capture' ) )
         ) || animations[ 0 ];
+        
         state.model.animation = clip.name;
     }
 
@@ -332,4 +341,5 @@ reaction( () => [
     setTimeout( () => {
         document.dispatchEvent( new Event( 'model-viewer:ready' ) );
     }, 250 );
+
 } )();

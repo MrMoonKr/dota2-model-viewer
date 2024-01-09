@@ -10,12 +10,16 @@
   },
   "type": "module",
   "scripts": {
+
     "build": "webpack build",
     "build:clean": "rimraf --glob ./public/{index.html,dota2*}",
+
     "lint": "eslint .",
     "screenshot": "node bin/screenshot.js",
+
     "start": "node bin/pipeline.js",
-    "start:dev": "WEBPACK_MIDDLEWARE=true nodemon --ignore src/web --ext js,cjs npm run start"
+    "start:dev": "WEBPACK_MIDDLEWARE=true nodemon --ignore src/web --ext js,cjs npm run start",
+    "start.dev": "nodemon bin/pipeline.js"
   },
   "dependencies": {
     "dat.gui": "^0.7.7",
