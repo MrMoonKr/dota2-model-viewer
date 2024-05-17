@@ -16,8 +16,12 @@ import PortraitBackdrop from './PortraitBackdrop.js';
 import SceneState from './SceneState.js';
 import { RADIANS_TO_DEGREES } from './utils.js';
 
-// query model ex) localhost:3000?model=models/creeps/roshan/roshan.vmdl
+// query model ex) localhost:3000?model=models/creeps/roshan/roshan.vmdl&portrait&debug
 const query = new URLSearchParams( document.location.search );
+
+/**
+ * @type {string} 에셋 리소스 이름 ex) models/creeps/roshan/roshan.vmdl
+ */
 const model = query.get( 'model' ) || 'models/creeps/roshan/roshan.vmdl';
 
 // Holds portrait camera position/rotation, lights, whether to animate etc.
@@ -192,67 +196,71 @@ reaction( () => [ state.camera.position.normalized, state.camera.rotation.normal
     } 
 );
 
-reaction( () => [
-    state.camera.fov, state.camera.far, state.camera.near,
-], ( [ fov, far, near ] ) => {
-    cameras.portrait.fov = fov;
-    cameras.portrait.far = far;
-    cameras.portrait.near = near;
-    cameras.portrait.updateProjectionMatrix();
-} );
+reaction( () => [ state.camera.fov, state.camera.far, state.camera.near, ], 
+    ( [ fov, far, near ] ) => {
+        cameras.portrait.fov = fov;
+        cameras.portrait.far = far;
+        cameras.portrait.near = near;
+        cameras.portrait.updateProjectionMatrix();
+    } 
+);
 
-reaction( () => [
-    state.lights.ambient.visible,
-    state.lights.ambient.color.value,
-], ( [ visible, color ] ) => {
-    ambient.visible = visible;
-    ambient.color.set( color );
-}, {
-    fireImmediately: true
-} );
+reaction( () => [ state.lights.ambient.visible, state.lights.ambient.color.value, ],
+    ( [ visible, color ] ) => {
+        ambient.visible = visible;
+        ambient.color.set( color );
+    }, 
+    {
+        fireImmediately: true
+    } 
+);
 
-reaction( () => [
-    state.lights.spotlight.visible,
-    state.lights.spotlight.color.value,
-    state.lights.spotlight.position.normalized,
-    state.lights.spotlight.rotation.normalized,
-    state.lights.spotlight.scale,
-], ( [ visible, color, position, rotation ] ) => {
-    spotlight.visible = visible;
-    spotlight.color.set( color );
-    spotlight.position.set( ...position );
+reaction( () => [ state.lights.spotlight.visible, 
+                  state.lights.spotlight.color.value, 
+                  state.lights.spotlight.position.normalized,
+                  state.lights.spotlight.rotation.normalized,
+                  state.lights.spotlight.scale, ], 
+    ( [ visible, color, position, rotation ] ) => {
+        spotlight.visible = visible;
+        spotlight.color.set( color );
+        spotlight.position.set( ...position );
 
-    // Unfortunately, most lights in THREE cannot be rotated directly. So, instead,
-    // manually apply the given normalized rotation to the light's target and move it
-    // slightly away from the source. If the light's target is added to the scene,
-    // the light will automatically keep looking at the target.
-    spotlightTarget.position.copy( spotlight.position );
-    spotlightTarget.rotation.set( ...rotation );
-    spotlightTarget.translateZ( -1 );
-}, {
-    fireImmediately: true
-} );
+        // Unfortunately, most lights in THREE cannot be rotated directly. So, instead,
+        // manually apply the given normalized rotation to the light's target and move it
+        // slightly away from the source. If the light's target is added to the scene,
+        // the light will automatically keep looking at the target.
+        spotlightTarget.position.copy( spotlight.position );
+        spotlightTarget.rotation.set( ...rotation );
+        spotlightTarget.translateZ( -1 );
+    }, 
+    {
+        fireImmediately: true
+    } 
+);
 
-reaction( () => state.lights.spotlight.fov, ( fov ) => {
-    // Unfortunately, the shadow camera's field of view cannot be set directly,
-    // so instead we alter the light's angle to result in the requested fov.
-    // See: https://github.com/mrdoob/three.js/blob/master/src/lights/SpotLightShadow.js#L23
-    spotlight.angle = fov / ( RADIANS_TO_DEGREES * 2 * spotlight.shadow.focus );
-} );
+reaction( () => state.lights.spotlight.fov, 
+    ( fov ) => {
+        // Unfortunately, the shadow camera's field of view cannot be set directly,
+        // so instead we alter the light's angle to result in the requested fov.
+        // See: https://github.com/mrdoob/three.js/blob/master/src/lights/SpotLightShadow.js#L23
+        spotlight.angle = fov / ( RADIANS_TO_DEGREES * 2 * spotlight.shadow.focus );
+    } 
+);
 
-reaction( () => [
-    state.helpers.axes,
-    state.helpers.grid,
-    state.helpers.spotlight && state.lights.spotlight.visible,
-    state.helpers.camera,
-], ( [ showAxesHelper, showGridHelper, showSpotlightHelper, showCameraHelper ] ) => {
-    axesHelper.visible = showAxesHelper;
-    gridHelper.visible = showGridHelper;
-    spotlightHelper.visible = showSpotlightHelper;
-    cameraHelper.visible = showCameraHelper;
-}, {
-    fireImmediately: true
-} );
+reaction( () => [ state.helpers.axes,
+                  state.helpers.grid,
+                  state.helpers.spotlight && state.lights.spotlight.visible,
+                  state.helpers.camera, ], 
+    ( [ showAxesHelper, showGridHelper, showSpotlightHelper, showCameraHelper ] ) => {
+        axesHelper.visible = showAxesHelper;
+        gridHelper.visible = showGridHelper;
+        spotlightHelper.visible = showSpotlightHelper;
+        cameraHelper.visible = showCameraHelper;
+    },
+    {
+        fireImmediately: true
+    } 
+);
 
 ( async () => {
     // Load binary glTF version of requested model
@@ -309,7 +317,7 @@ reaction( () => [
             animations.find( ( a ) => a.name.includes( 'idle' ) ) ||
             animations.find( ( a ) => a.name.includes( 'capture' ) )
         ) || animations[ 0 ];
-        
+
         state.model.animation = clip.name;
     }
 

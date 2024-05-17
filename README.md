@@ -5,7 +5,8 @@
 A web-based model viewer for Dota 2 with additional support for rendering
 portrait images, normally shown in the bottom part of the HUD on selection.
 
-<img alt="Dota 2 Model Viewer" src="https://user-images.githubusercontent.com/378235/107156847-f873c880-6980-11eb-9ada-69e8860022df.png" width="49%" /> <img alt="Dota 2 Portraits" src="https://user-images.githubusercontent.com/378235/107994878-d102a880-6fdd-11eb-9182-ead19c3585de.jpg" width="49%" />
+<img alt="Dota 2 Model Viewer" src="https://user-images.githubusercontent.com/378235/107156847-f873c880-6980-11eb-9ada-69e8860022df.png" width="49%" /> 
+<img alt="Dota 2 Portraits" src="https://user-images.githubusercontent.com/378235/107994878-d102a880-6fdd-11eb-9182-ead19c3585de.jpg" width="49%" />
 
 # Overview
 

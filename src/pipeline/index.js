@@ -35,6 +35,13 @@ app.use( express.static( 'public' ) );
 // the model viewer to access these files, we expose this folder fully.
 app.use( express.static( config.VRF_EXTRACT_PATH ) );
 
+app.get( '/api/list', ( req, res ) => {
+
+    const jsonList = JSON.stringify( models );
+    res.send( jsonList );
+    //res.json( jsonList );
+})
+
 // Lists all models
 app.get( '/models.json', ( _, res ) => {
     res.send( models );

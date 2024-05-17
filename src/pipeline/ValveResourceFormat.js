@@ -83,7 +83,7 @@ class ValveResourceFormat {
     /**
      * 
      * @param {string} resource 에셋 파일 이름
-     * @returns 
+     * @returns {string} 'utf8' text
      */
     fetch( resource ) {
 
