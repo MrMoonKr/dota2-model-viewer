@@ -6,6 +6,21 @@ GET http://localhost:3000
 ###
 GET http://localhost:3000/api/list
 
+###
+GET http://localhost:3000/api/list/heroes
+
+###
+GET http://localhost:3000/api/list/items
+
+###
+GET http://localhost:3000/api/list/props_gameplay
+
+
+
+
+
+
+
 
 ###
 GET http://localhost:3000/models.json

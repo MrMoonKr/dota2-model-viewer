@@ -22,7 +22,7 @@ const query = new URLSearchParams( document.location.search );
 /**
  * @type {string} 에셋 리소스 이름 ex) models/creeps/roshan/roshan.vmdl
  */
-const model = query.get( 'model' ) || 'models/creeps/roshan/roshan.vmdl';
+const  model = query.get( 'model' ) || 'models/creeps/roshan/roshan.vmdl';
 
 // Holds portrait camera position/rotation, lights, whether to animate etc.
 const state = new SceneState( query );

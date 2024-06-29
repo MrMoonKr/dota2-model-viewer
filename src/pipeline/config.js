@@ -1,5 +1,5 @@
 const {
-    DOTA2_DIR_VPK_PATH = 'D:/Steam-Games/steamapps/common/dota 2 beta/game/dota/pak01_dir.vpk',
+    DOTA2_DIR_VPK_PATH = 'D:/SteamLibrary/steamapps/common/dota 2 beta/game/dota/pak01_dir.vpk',
     PORT = 3000,
     VRF_DECOMPILER_PATH = './vrf/Decompiler.exe',
     VRF_EXTRACT_PATH = './extract/',

@@ -37,13 +37,43 @@ app.use( express.static( config.VRF_EXTRACT_PATH ) );
 
 app.get( '/api/list', ( req, res ) => {
 
-    const jsonList = JSON.stringify( models );
-    res.send( jsonList );
+    //const jsonList = JSON.stringify( models );
+    //res.send( jsonList );
     //res.json( jsonList );
+    res.send( models );
 })
+
+app.get( '/api/list/heroes', ( req, res ) => {
+
+    const heroes = models.filter( ( model ) => model.includes( 'models/heroes/' ) ) ;
+    res.send( heroes );
+
+    console.log( '[정보] Heroes : ' + heroes.length );
+
+})
+
+app.get( '/api/list/creeps', ( req, res ) => {
+
+    const creeps = models.filter( ( model ) => model.includes( 'models/creeps/' ) ) ;
+    res.send( creeps );
+
+    console.log( '[정보] Creeps : ' + creeps.length );
+
+})
+
+app.get( '/api/list/:type', ( req, res ) => {
+
+    const mdls = models.filter( ( model ) => model.includes( 'models/' + req.params.type ) ) ;
+    res.send( mdls );
+
+    console.log( `[정보] ${ req.params.type } : ` + mdls.length );
+
+})
+
 
 // Lists all models
 app.get( '/models.json', ( _, res ) => {
+    console.log( '[정보] 모델수 : ' + models.length );
     res.send( models );
 } );
 
